@@ -39,3 +39,20 @@ async def main():
 if name == "main":
     logging.basicConfig(level=logging.INFO)
     asyncio.run(main())
+import os
+from threading import Thread
+from http.server import BaseHTTPRequestHandler, HTTPServer
+
+class HealthHandler(BaseHTTPRequestHandler):
+    def do_GET(self):
+        self.send_response(200)
+        self.end_headers()
+        self.wfile.write(b"OK")
+
+def run_health_server():
+    port = int(os.environ.get("PORT", 10000))
+    server = HTTPServer(('0.0.0.0', port), HealthHandler)
+    server.serve_forever()
+
+# Запускаем заглушку в отдельном потоке
+Thread(target=run_health_server, daemon=True).start()
