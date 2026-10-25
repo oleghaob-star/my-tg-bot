@@ -6,7 +6,6 @@ from aiogram.filters import CommandStart
 
 BOT_TOKEN = "8796038950:AAHYYKJLQbARcrZSR4D2MPGeKykfv2XdGZE"
 ADMIN_ID = 6274533113
-КАВЫЧЕК
 bot = Bot(token=BOT_TOKEN)
 dp = Dispatcher()
 
