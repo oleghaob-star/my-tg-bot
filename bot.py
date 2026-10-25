@@ -1,3 +1,6 @@
+import os
+from http.server import BaseHTTPRequestHandler, HTTPServer
+from threading import Thread
 import asyncio
 import logging
 from aiogram import Bot, Dispatcher, F
@@ -6,6 +9,7 @@ from aiogram.filters import CommandStart
 
 BOT_TOKEN = "8796038950:AAHYYKJLQbARcrZSR4D2MPGeKykfv2XdGZE"
 ADMIN_ID = 6274533113
+
 bot = Bot(token=BOT_TOKEN)
 dp = Dispatcher()
 
@@ -35,13 +39,7 @@ async def successful_payment(message: Message):
 async def main():
     await dp.start_polling(bot)
 
-if name == "main":
-    logging.basicConfig(level=logging.INFO)
-    asyncio.run(main())
-import os
-from threading import Thread
-from http.server import BaseHTTPRequestHandler, HTTPServer
-
+# --- ЗАГЛУШКА ДЛЯ RENDER (чтобы сервер не засыпал) ---
 class HealthHandler(BaseHTTPRequestHandler):
     def do_GET(self):
         self.send_response(200)
@@ -53,5 +51,8 @@ def run_health_server():
     server = HTTPServer(('0.0.0.0', port), HealthHandler)
     server.serve_forever()
 
-# Запускаем заглушку в отдельном потоке
 Thread(target=run_health_server, daemon=True).start()
+
+if name == "main":
+    logging.basicConfig(level=logging.INFO)
+    asyncio.run(main())
